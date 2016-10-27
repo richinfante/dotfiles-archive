@@ -13,4 +13,5 @@ export GREP_OPTIONS='--color=auto'
 export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/9.6/bin"
 alias la='ls -a'
 alias ls='ls -GFh'
+alias root='sudo su'
 
