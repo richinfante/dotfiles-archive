@@ -1,7 +1,7 @@
 echo "Welcome back, $USER"
 
 # export PS1="\u \w \$ "
-export PS1="\u \[$(tput sgr0)\]\[\033[38;5;249m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;82m\]\\$\[$(tput sgr0)\] "
+export PS1="\n\u \[$(tput sgr0)\]\[\033[38;5;249m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;82m\]\\$\[$(tput sgr0)\] "
 
 export CLICOLOR=1
 # export LSCOLORS=GxFxCxDxBxegedabagaced
