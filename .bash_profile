@@ -10,8 +10,17 @@ export LSCOLORS=hxfxcxdxbxegedabagacad
 # Tell grep to highlight matches
 export GREP_OPTIONS='--color=auto'
 
+# Path variables
 export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/9.6/bin"
+
+## Shortcuts
+
 alias la='ls -a'
 alias ls='ls -GFh'
 alias root='sudo su'
 
+# Shortcut for projects directory
+p() { cd ~/Projects/$@; }
+
+# Python static serve
+alias serve='python -m SimpleHTTPServer 8000'
