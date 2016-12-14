@@ -18,6 +18,7 @@ export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/9.6/bin"
 alias la='ls -a'
 alias ls='ls -GFh'
 alias root='sudo su'
+alias up='p it && npm run console'
 
 # Shortcut for projects directory
 p() { cd ~/Projects/$@; }
