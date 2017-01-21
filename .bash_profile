@@ -33,11 +33,17 @@ alias ls='ls -GFh'
 alias root='sudo su'
 alias serve='python -m SimpleHTTPServer 8000'
 
+cf() {
+  mkdir $@; cd $@;
+}
+
 up() {
    if [ -e package.json ]; then
       npm start
    elif [ -e start.sh ]; then
       start.sh
+   elif [ -e .up ]; then
+      bash ./.up
    elif [ -e index.js ]; then
       node index.js
    elif [ -e _config.yml ]; then
@@ -49,7 +55,16 @@ up() {
     fi
 }
 
+down() {
+  if [ -e .down ]; then
+      bash ./.down
+  elif [ -e stop.sh ]; then
+      stop.sh
+  fi
+}
+
 sha1() { openssl sha1 $@; }
+speak() { say -v 'Samantha' $@; }
 
 # Shortcut for projects directory
 p() { cd ~/Projects/$@; }
