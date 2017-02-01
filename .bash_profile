@@ -13,7 +13,14 @@ parse_git_branch() {
   
 }
 
-export PS1="\n\u \[$(tput sgr0)\]\[\033[38;5;249m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[\033[38;5;201m\]\$(parse_git_branch)\[$(tput sgr0)\]\\[$(tput sgr0)\]\[\033[38;5;82m\]\$\[$(tput sgr0)\] "
+ssh_status () {
+  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    echo "\[\033[38;5;12m\](ssh: \h)\[$(tput sgr0)\] "
+  fi
+  echo ""
+}
+
+export PS1="\n\u \[$(tput sgr0)\]\[\033[38;5;249m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] $(ssh_status)\[\033[38;5;201m\]\$(parse_git_branch)\[$(tput sgr0)\]\\[$(tput sgr0)\]\[\033[38;5;82m\]\$\[$(tput sgr0)\] "
 
 export CLICOLOR=1
 # export LSCOLORS=GxFxCxDxBxegedabagaced
