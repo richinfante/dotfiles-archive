@@ -15,7 +15,7 @@ parse_git_branch() {
 
 ssh_status () {
   if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    echo "\[\033[38;5;12m\](ssh: \h)\[$(tput sgr0)\] "
+    echo "\[\033[38;5;12m\](🔑  \h)\[$(tput sgr0)\] "
   fi
   echo ""
 }
