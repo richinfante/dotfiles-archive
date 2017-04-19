@@ -28,12 +28,16 @@ export LSCOLORS=hxfxcxdxbxegedabagacad
 
 # Tell grep to highlight matches
 export GREP_OPTIONS='--color=auto'
+#alias ls='ls --color=auto'
 
 # Path variables
 export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/9.6/bin"
 export PATH="$PATH:./node_modules/.bin"
-## Shortcuts
+export PATH="$PATH:~/.npm-global/bin"
+export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:/Users/rich/bin/emsdk-portable:/Users/rich/bin/emsdk-portable/clang/e1.37.9_64bit:/Users/rich/bin/emsdk-portable/node/4.1.1_64bit/bin:/Users/rich/bin/emsdk-portable/emscripten/1.37.9"
 
+## Shortcuts
 alias finder='open .'
 alias la='ls -a'
 alias ls='ls -GFh'
@@ -46,13 +50,13 @@ cf() {
 
 up() {
    if [ -e package.json ]; then
-      npm start
+      npm start $@
    elif [ -e start.sh ]; then
-      start.sh
+      start.sh $@
    elif [ -e .up ]; then
-      bash ./.up
+      bash ./.up $@
    elif [ -e index.js ]; then
-      node index.js
+      node index.js $@
    elif [ -e _config.yml ]; then
       jekyll serve
    elif [ -e index.html ]; then
@@ -64,7 +68,7 @@ up() {
 
 down() {
   if [ -e .down ]; then
-      bash ./.down
+      bash ./.down $@
   elif [ -e stop.sh ]; then
       stop.sh
   fi
@@ -73,11 +77,8 @@ down() {
 sha1() { openssl sha1 $@; }
 speak() { say -v 'Samantha' $@; }
 
+# Bash auto complete tab cycle
+bind 'TAB:menu-complete'
+
 # Shortcut for projects directory
 p() { cd ~/Projects/$@; }
-
-# Time utility
-now() { node -e "function daydiff(first, second) { return Math.round((second-first)/(1000*60*60*24)); } console.log('Day ' + daydiff(new Date('2016-11-02'), new Date()) + ' - ' + (() => { var now = new Date(); var frac = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 60 / 60; return (frac / 24 * 100).toFixed(2) + '%'; })());"; }
-
-echo "Welcome back, $USER"
-now
