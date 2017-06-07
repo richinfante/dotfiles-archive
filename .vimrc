@@ -1,4 +1,4 @@
-set mouse=a
+" set mouse=a
 set tabstop=2               " 1 tab = 2 spaces
 set expandtab               " Tabs -> Spaces
 set number                  " Show Line Numbers

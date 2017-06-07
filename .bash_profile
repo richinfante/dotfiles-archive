@@ -33,18 +33,30 @@ export GREP_OPTIONS='--color=auto'
 #alias ls='ls --color=auto'
 
 # Path variables
+export PATH="/bin"
+export PATH="$PATH:/sbin"
+export PATH="$PATH:/usr/bin"
+export PATH="$PATH:/usr/sbin"
+export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/9.6/bin"
 export PATH="$PATH:./node_modules/.bin"
-export PATH="$PATH:~/.npm-global/bin"
+export PATH="$PATH:$HOME/.npm-global/bin"
+export PATH="$PATH:$HOME/.fastlane/bin"
 export PATH="$PATH:$HOME/bin"
-export PATH="$PATH:/Users/rich/bin/emsdk-portable:/Users/rich/bin/emsdk-portable/clang/e1.37.9_64bit:/Users/rich/bin/emsdk-portable/node/4.1.1_64bit/bin:/Users/rich/bin/emsdk-portable/emscripten/1.37.9"
+export PATH="$PATH:$HOME/bin/emsdk-portable"
+export PATH="$PATH:$HOME/bin/emsdk-portable/clang/e1.37.9_64bit"
+export PATH="$PATH:$HOME/bin/emsdk-portable/node/4.1.1_64bit/bin"
+export PATH="$PATH:$HOME/bin/emsdk-portable/emscripten/1.37.9"
 
-## Shortcuts
+# Shortcuts
 alias finder='open .'
 alias la='ls -a'
 alias ls='ls -GFh'
 alias root='sudo su'
 alias serve='python -m SimpleHTTPServer 8888'
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+alias chrome-canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary"
+alias chromium="/Applications/Chromium.app/Contents/MacOS/Chromium"
 
 cf() {
   mkdir $@; cd $@;
@@ -89,4 +101,4 @@ bind 'TAB:menu-complete'
 # Shortcut for projects directory
 p() { cd ~/Projects/$@; }
 
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Applications/Postgres.app/Contents/Versions/9.6/bin:./node_modules/.bin:~/.npm-global/bin:/Users/rich/bin:/Users/rich/bin/emsdk-portable:/Users/rich/bin/emsdk-portable/clang/e1.37.9_64bit:/Users/rich/bin/emsdk-portable/node/4.1.1_64bit/bin:/Users/rich/bin/emsdk-portable/emscripten/1.37.9:/Users/rich/.vimpkg/bin
+
