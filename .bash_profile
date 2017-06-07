@@ -1,3 +1,5 @@
+export TERM=xterm
+
 # export PS1="\u \w \$ "
 parse_git_branch() {
   if [ ! -d ".git" ]; then
@@ -42,7 +44,7 @@ alias finder='open .'
 alias la='ls -a'
 alias ls='ls -GFh'
 alias root='sudo su'
-alias serve='python -m SimpleHTTPServer 8000'
+alias serve='python -m SimpleHTTPServer 8888'
 
 cf() {
   mkdir $@; cd $@;
@@ -74,6 +76,10 @@ down() {
   fi
 }
 
+function youtube-mp3 {
+  youtube-dl --extract-audio --audio-format mp3 -l $@
+}
+
 sha1() { openssl sha1 $@; }
 speak() { say -v 'Samantha' $@; }
 
@@ -82,3 +88,5 @@ bind 'TAB:menu-complete'
 
 # Shortcut for projects directory
 p() { cd ~/Projects/$@; }
+
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Applications/Postgres.app/Contents/Versions/9.6/bin:./node_modules/.bin:~/.npm-global/bin:/Users/rich/bin:/Users/rich/bin/emsdk-portable:/Users/rich/bin/emsdk-portable/clang/e1.37.9_64bit:/Users/rich/bin/emsdk-portable/node/4.1.1_64bit/bin:/Users/rich/bin/emsdk-portable/emscripten/1.37.9:/Users/rich/.vimpkg/bin

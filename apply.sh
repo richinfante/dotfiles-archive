@@ -9,6 +9,7 @@ mkdir -p ~/.vim
 mkdir -p ~/.vim/colors
 cp molokai/colors/molokai.vim ~/.vim/colors
 
+cp ./.tmux.conf ~/.tmux.conf
 cp ./.hyper.js ~/.hyper.js
 cp ./.vimrc ~/.vimrc
 cp ./.bash_profile ~/.bash_profile
