@@ -1,11 +1,14 @@
 export TERM=xterm
 
+# Bash tab completion
+bind 'TAB:menu-complete'
+
 # export PS1="\u \w \$ "
 parse_git_branch() {
   if [ ! -d ".git" ]; then
     # Control will enter here if $DIRECTORY doesn't exist.
     echo ""
-  elif git diff-index --quiet HEAD --; then
+  elif git diff-index --quiet HEAD -- 2> /dev/null; then
     # no changes
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(↳ \1) /'
   else
@@ -15,6 +18,7 @@ parse_git_branch() {
   
 }
 
+# Return the hostname for display if on ssh
 ssh_status () {
   if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     echo "\[\033[38;5;12m\]\h\[$(tput sgr0)\] "
@@ -22,13 +26,12 @@ ssh_status () {
   echo ""
 }
 
-export PS1="\n$(ssh_status)\u \[$(tput sgr0)\]\[\033[38;5;249m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[\033[38;5;201m\]\$(parse_git_branch)\[$(tput sgr0)\]\\[$(tput sgr0)\]\[\033[38;5;82m\]\$\[$(tput sgr0)\] "
+# Bash Prompt
+export PS1="\n$(ssh_status 2> /dev/null)\u \[$(tput sgr0)\]\[\033[38;5;249m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[\033[38;5;201m\]\$(parse_git_branch 2> /dev/null)\[$(tput sgr0)\]\\[$(tput sgr0)\]\[\033[38;5;82m\]\$\[$(tput sgr0)\] "
 
+# Enable some colors
 export CLICOLOR=1
-# export LSCOLORS=GxFxCxDxBxegedabagaced
 export LSCOLORS=hxfxcxdxbxegedabagacad
-
-# Tell grep to highlight matches
 export GREP_OPTIONS='--color=auto'
 #alias ls='ls --color=auto'
 
@@ -88,17 +91,12 @@ down() {
   fi
 }
 
-function youtube-mp3 {
+function youtube_mp3 {
   youtube-dl --extract-audio --audio-format mp3 -l $@
 }
 
 sha1() { openssl sha1 $@; }
 speak() { say -v 'Samantha' $@; }
-
-# Bash auto complete tab cycle
-bind 'TAB:menu-complete'
-
-# Shortcut for projects directory
 p() { cd ~/Projects/$@; }
 
 
