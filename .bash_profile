@@ -125,7 +125,7 @@ function dotfiles_check_updates {
     return "[+] Reloaded profile."
   elif [ -d ~/Projects/dotfiles ]; then
     # Pull Remote refs
-    ( cd ~/Projects/dotfiles && git remote update 2> /dev/null ) 
+    ( cd ~/Projects/dotfiles && git remote update > /dev/null ) 
     
     # Check for changes
     UPSTREAM=${1:-'@{u}'}
