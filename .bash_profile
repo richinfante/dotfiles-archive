@@ -109,9 +109,10 @@ function update_dotfiles {
       (
         echo "[+] Updating Dotfiles..."
         cd ~/Projects/dotfiles
-        git pull
-        echo "[+] Applying Updates..."
-        # chmod +x ./apply.sh && ./apply.sh
+        git pull &&
+        echo "[+] Applying Updates..." &&
+        chmod +x ./apply.sh && 
+        ./apply.sh
         echo "[+] Run reload_profile to update current shell's profile."
       )
     fi
