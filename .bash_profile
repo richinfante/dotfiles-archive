@@ -99,6 +99,7 @@ sha1() { openssl sha1 $@; }
 speak() { say -v 'Samantha' $@; }
 p() { cd ~/Projects/$@; }
 
+# Self Updater
 function reload_profile {
   source ~/.bash_profile NO_CHECK_UPDATES
 }
