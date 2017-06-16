@@ -99,6 +99,7 @@ sha1() { openssl sha1 $@; }
 speak() { say -v 'Samantha' $@; }
 p() { cd ~/Projects/$@; }
 
+# Check for updates, don't actually do anything about it.
 function dotfiles_check_updates {
   if [ -d ~/Projects/dotfiles ]; then
     # Pull Remote refs
