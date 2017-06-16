@@ -124,7 +124,10 @@ function dotfiles_check_updates {
   if [[ $1 = "NO_CHECK_UPDATES" || $2 == "NO_CHECK_UPDATES" ]]; then
     return "[+] Reloaded profile."
   elif [ -d ~/Projects/dotfiles ]; then
+    # Pull Remote refs
     ( cd ~/Projects/dotfiles && git remote update 2> /dev/null ) 
+    
+    # Check for changes
     UPSTREAM=${1:-'@{u}'}
     LOCAL=$(cd ~/Projects/dotfiles && git rev-parse @)
     REMOTE=$(cd ~/Projects/dotfiles && git rev-parse "$UPSTREAM")
