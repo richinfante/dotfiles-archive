@@ -99,31 +99,8 @@ sha1() { openssl sha1 $@; }
 speak() { say -v 'Samantha' $@; }
 p() { cd ~/Projects/$@; }
 
-# Self Updater
-function reload_profile {
-  source ~/.bash_profile NO_CHECK_UPDATES
-}
-
-function update_dotfiles {
-  (
-    if [ -d ~/Projects/dotfiles ]; then
-      (
-        echo "[+] Updating Dotfiles..."
-        cd ~/Projects/dotfiles
-        git pull &&
-        echo "[+] Applying Updates..." &&
-        chmod +x ./apply.sh && 
-        ./apply.sh
-        echo "[+] Run reload_profile to update current shell's profile."
-      )
-    fi
-  )
-}
-
 function dotfiles_check_updates {
-  if [[ $1 = "NO_CHECK_UPDATES" || $2 == "NO_CHECK_UPDATES" ]]; then
-    return "[+] Reloaded profile."
-  elif [ -d ~/Projects/dotfiles ]; then
+  if [ -d ~/Projects/dotfiles ]; then
     # Pull Remote refs
     ( cd ~/Projects/dotfiles && git remote update > /dev/null 2> /dev/null ) 
     
@@ -134,9 +111,7 @@ function dotfiles_check_updates {
     BASE=$(cd ~/Projects/dotfiles && git merge-base @ "$UPSTREAM")
   
     if [[ "$LOCAL" == "$BASE" && "$LOCAL" != "$REMOTE" ]]; then
-        update_dotfiles &
-    else
-        echo "[+] Dotfiles are up to date."
+        echo "[!] There are updates available your dotfiles."
     fi
   fi
 }
