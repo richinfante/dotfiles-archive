@@ -117,4 +117,4 @@ function dotfiles_check_updates {
   fi
 }
 
-dotfiles_check_updates
+dotfiles_check_updates &
