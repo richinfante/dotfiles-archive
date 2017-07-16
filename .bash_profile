@@ -2,6 +2,12 @@ export TERM=xterm
 # Bash tab completion
 bind 'TAB:menu-complete'
 
+GIT_BRANCH_CHAR="↳"
+
+if [ -f ~/.bash_config ]; then
+  source ~/.bash_config
+fi
+
 # Colors
 if [ "$COLORS_ENABLED" != "false" ]; then
   
@@ -49,12 +55,6 @@ if [ "$COLORS_ENABLED" != "false" ]; then
   export HIDDEN="\033[8m"
 fi 
 
-GIT_BRANCH_CHAR="↳"
-
-if [ -f ~/.bash_config ]; then
-  source ~/.bash_config
-fi
-
 plugin_git_branch () {
   if [ ! -d ".git" ]; then
     # Control will enter here if $DIRECTORY doesn't exist.
@@ -91,9 +91,9 @@ export plugin_ssh_hostname
 export plugin_root
 
 # Bash Prompt
-export PS1="\[$RESET\]\
+export PS1="\[$RESET$BG_BLACK\]\
 \[$DIM$GRAY\]\D{%Y-%m-%d %H:%M:%S} \
-\[$RESET$WHITE\]\u$(plugin_ssh_hostname): \
+\[$RESET$WHITE$BG_BLACK\]\u$(plugin_ssh_hostname): \
 \[$GRAY\]\w \
 \[$LIGHT_MAGENTA\]\$(plugin_git_branch 2> /dev/null)\
 \[$LIGHT_GREEN\]$(plugin_root)\[$RESET\] "
@@ -186,4 +186,6 @@ function dotfiles_check_updates {
   fi
 }
 
-dotfiles_check_updates &
+if [ "$DOTFILES_CHECK_UPDATES" == "true" ]; then
+  dotfiles_check_updates &
+fi
