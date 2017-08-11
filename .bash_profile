@@ -99,7 +99,9 @@ export PS1="\[$RESET$BG_BLACK\]\
 \[$RESET$WHITE$BG_BLACK\]\u$(plugin_ssh_hostname): \
 \[$GRAY\]\w \
 \[$LIGHT_MAGENTA\]\$(plugin_git_branch 2> /dev/null)\
-\[$LIGHT_GREEN\]$(plugin_root)\[$RESET\] "
+\[$LIGHT_GREEN\]\$(plugin_root)\[$RESET\] "
+export PS2="\[$DIM$GRAY\]> \[$RESET\]"
+export PS4="\[$DIM$GRAY\]+ \[$RESET\]"
 
 # Enable some colors
 export CLICOLOR=1
