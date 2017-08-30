@@ -1,4 +1,7 @@
 export TERM=xterm
+
+DOTFILES_DIR="~/Projects/dotfiles"
+
 # Bash tab completion
 bind 'TAB:menu-complete'
 
@@ -184,18 +187,19 @@ p() { cd ~/Projects/$@; }
 
 # Check for updates, don't actually do anything about it.
 function dotfiles_check_updates {
-  if [ -d ~/Projects/dotfiles ]; then
+  if [ -d $DOTFILES_DIR ]; then
     # Pull Remote refs
-    ( cd ~/Projects/dotfiles && git remote update > /dev/null 2> /dev/null ) 
+    ( cd $DOTFILES_DIR && git remote update > /dev/null 2> /dev/null ) 
     
     # Check for changes
     UPSTREAM=${1:-'@{u}'}
-    LOCAL=$(cd ~/Projects/dotfiles && git rev-parse @)
-    REMOTE=$(cd ~/Projects/dotfiles && git rev-parse "$UPSTREAM")
-    BASE=$(cd ~/Projects/dotfiles && git merge-base @ "$UPSTREAM")
+    LOCAL=$(cd $DOTFILES_DIR && git rev-parse @)
+    REMOTE=$(cd $DOTFILES_DIR && git rev-parse "$UPSTREAM")
+    BASE=$(cd $DOTFILES_DIR && git merge-base @ "$UPSTREAM")
   
     if [[ "$LOCAL" == "$BASE" && "$LOCAL" != "$REMOTE" ]]; then
         echo "[!] There are updates available your dotfiles."
+        echo "[!] Run \"cd $DOTFILES_DIR\", \"git pull\", and \"./apply.sh\""
     fi
   fi
 }
