@@ -4,6 +4,12 @@ bind 'TAB:menu-complete'
 
 GIT_BRANCH_CHAR="↳"
 
+# Run bashrc
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# Run Bash config
 if [ -f ~/.bash_config ]; then
   source ~/.bash_config
 fi
@@ -104,21 +110,29 @@ export LSCOLORS=hxfxcxdxbxegedabagacad
 export GREP_OPTIONS='--color=auto'
 #alias ls='ls --color=auto'
 
+# Export paths only if they exist.
+function export_path {
+  if [ -d "$1" ]; then
+    export PATH="$PATH:$1"
+  fi
+}
+
 # Path variables
 export PATH="/bin"
-export PATH="$PATH:/sbin"
-export PATH="$PATH:/usr/bin"
-export PATH="$PATH:/usr/sbin"
-export PATH="$PATH:/usr/local/bin"
-export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/9.6/bin"
-export PATH="$PATH:./node_modules/.bin"
-export PATH="$PATH:$HOME/.npm-global/bin"
-export PATH="$PATH:$HOME/.fastlane/bin"
-export PATH="$PATH:$HOME/bin"
-export PATH="$PATH:$HOME/bin/emsdk-portable"
-export PATH="$PATH:$HOME/bin/emsdk-portable/clang/e1.37.9_64bit"
-export PATH="$PATH:$HOME/bin/emsdk-portable/node/4.1.1_64bit/bin"
-export PATH="$PATH:$HOME/bin/emsdk-portable/emscripten/1.37.9"
+export_path "/sbin"
+export_path "/usr/bin"
+export_path "/usr/sbin"
+export_path "/usr/local/bin"
+export_path "/Applications/Postgres.app/Contents/Versions/9.6/bin"
+export_path "./node_modules/.bin"
+export_path "$HOME/.local/bin"
+export_path "$HOME/.npm-global/bin"
+export_path "$HOME/.fastlane/bin"
+export_path "$HOME/bin"
+export_path "$HOME/bin/emsdk-portable"
+export_path "$HOME/bin/emsdk-portable/clang/e1.37.9_64bit"
+export_path "$HOME/bin/emsdk-portable/node/4.1.1_64bit/bin"
+export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
 
 # Shortcuts
 alias finder='open .'
