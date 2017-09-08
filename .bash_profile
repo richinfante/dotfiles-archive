@@ -1,11 +1,12 @@
 export TERM=xterm-256color
 
+# Customizable Options
+GIT_BRANCH_CHAR="↳"
 DOTFILES_DIR="~/Projects/dotfiles"
+TMUX_AUTO_OPEN=true
 
 # Bash tab completion
 bind 'TAB:menu-complete'
-
-GIT_BRANCH_CHAR="↳"
 
 # Run bashrc
 if [ -f ~/.bashrc ]; then
@@ -172,4 +173,12 @@ function dotfiles_check_updates {
 
 if [ "$DOTFILES_CHECK_UPDATES" == "true" ]; then
   dotfiles_check_updates &
+fi
+
+# Auto open tmux if enabled and not running.
+if [ "$TMUX_AUTO_OPEN" == "true" ]; then
+  if [ -z "$TMUX" ]; then
+    # Open Tmux.
+    tmux
+  fi
 fi
