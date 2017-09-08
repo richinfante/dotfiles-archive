@@ -15,6 +15,3 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
 # Disable Multicast 
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool NO
-
-# Move screenshots to ~/Pictures/Screenshots
-defaults write com.apple.screencapture location ~/Pictures/Screenshots

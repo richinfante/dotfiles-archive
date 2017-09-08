@@ -126,7 +126,7 @@ export_path "/sbin"
 export_path "/usr/bin"
 export_path "/usr/sbin"
 export_path "/usr/local/bin"
-export_path "/Applications/Postgres.app/Contents/Versions/9.6/bin"
+export_path "/Applications/Postgres.app/Contents/Versions/latest/bin"
 export_path "./node_modules/.bin"
 export_path "$HOME/.local/bin"
 export_path "$HOME/.npm-global/bin"
@@ -143,47 +143,11 @@ alias la='ls -a'
 alias ls='ls -GFh'
 alias root='sudo su'
 alias serve='python -m SimpleHTTPServer 8888'
-alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-alias chrome-canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary"
-alias chromium="/Applications/Chromium.app/Contents/MacOS/Chromium"
 
-cf() {
-  mkdir $@; cd $@;
-}
-
-up() {
-   if [ -e package.json ]; then
-      npm start $@
-   elif [ -e start.sh ]; then
-      start.sh $@
-   elif [ -e .up ]; then
-      bash ./.up $@
-   elif [ -e index.js ]; then
-      node index.js $@
-   elif [ -e _config.yml ]; then
-      jekyll serve
-   elif [ -e index.html ]; then
-      open index.html
-   else
-      echo "No runnable file found."
-    fi
-}
-
-down() {
-  if [ -e .down ]; then
-      bash ./.down $@
-  elif [ -e stop.sh ]; then
-      stop.sh
-  fi
-}
-
-function youtube_mp3 {
-  youtube-dl --extract-audio --audio-format mp3 -l $@
-}
-
-sha1() { openssl sha1 $@; }
-speak() { say -v 'Samantha' $@; }
-p() { cd ~/Projects/$@; }
+function p { cd ~/Projects/$@; }
+function cf { mkdir $@; cd $@; }
+function youtube_mp3 { youtube-dl --extract-audio --audio-format mp3 -l $@; }
+function sha1 { openssl sha1 $@; }
 
 # Check for updates, don't actually do anything about it.
 function dotfiles_check_updates {
