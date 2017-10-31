@@ -101,9 +101,13 @@ export plugin_ssh_hostname
 export plugin_root
 
 # Bash Prompt
-export PS1="\[$RESET$BG_BLACK\]\
-\[$DIM$GRAY\]\D{%Y-%m-%d %H:%M:%S} \
-\[$RESET$WHITE$BG_BLACK\]\u$(plugin_ssh_hostname): \
+export PS1="\[$RESET$BG_BLACK\]"
+
+if [ "$PROMPT_DATE" == "true" ]; then 
+    PS1="$PS1\[$DIM$GRAY\]\D{%Y-%m-%d %H:%M:%S} "
+fi
+
+PS1="$PS1\[$RESET$WHITE$BG_BLACK\]\u$(plugin_ssh_hostname): \
 \[$GRAY\]\w \
 \[$LIGHT_MAGENTA\]\$(plugin_git_branch 2> /dev/null)\
 \[$LIGHT_GREEN\]\$(plugin_root)\[$RESET\] "
@@ -179,6 +183,6 @@ fi
 if [ "$TMUX_AUTO_OPEN" == "true" ]; then
   if [ -z "$TMUX" ]; then
     # Open Tmux.
-    tmux
+    tmux new-session -A -s main
   fi
 fi
