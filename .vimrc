@@ -7,3 +7,4 @@ filetype plugin indent on
 set showmatch               " Show matching braces
 syntax on                   " Enable syntax processing
 colorscheme molokai         " Set color scheme
+set textwidth=75            " Text width: 75

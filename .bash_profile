@@ -143,10 +143,17 @@ export_path "$HOME/bin/emsdk-portable"
 export_path "$HOME/bin/emsdk-portable/clang/e1.37.9_64bit"
 export_path "$HOME/bin/emsdk-portable/node/4.1.1_64bit/bin"
 export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
+export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
+export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
+export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
+
+export PATH="/usr/local/opt/bison/bin:$PATH"
 
 # Shortcuts
 alias finder='open .'
-alias la='ls -a'
+alias l='ls -a'
+alias ll='ls -l'
+alias la='ls -la'
 alias ls='ls -GFh'
 alias root='sudo su'
 alias serve='python -m SimpleHTTPServer 8888'
