@@ -115,10 +115,12 @@ export PS2="\[$DIM$GRAY\]> \[$RESET\]"
 export PS4="\[$DIM$GRAY\]+ \[$RESET\]"
 
 # Enable some colors
-export CLICOLOR=1
-export LSCOLORS=hxfxcxdxbxegedabagacad
-export GREP_OPTIONS='--color=auto'
-#alias ls='ls --color=auto'
+if [ "$COLORS_ENABLED" != "false" ]; then
+  export CLICOLOR=1
+  export LSCOLORS=hxfxcxdxbxegedabagacad
+  export GREP_OPTIONS='--color=auto'
+  # alias ls='ls --color=auto'
+fi
 
 # Export paths only if they exist.
 function export_path {
@@ -139,15 +141,11 @@ export_path "$HOME/.local/bin"
 export_path "$HOME/.npm-global/bin"
 export_path "$HOME/.fastlane/bin"
 export_path "$HOME/bin"
-export_path "$HOME/bin/emsdk-portable"
-export_path "$HOME/bin/emsdk-portable/clang/e1.37.9_64bit"
-export_path "$HOME/bin/emsdk-portable/node/4.1.1_64bit/bin"
-export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
-export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
-export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
-export_path "$HOME/bin/emsdk-portable/emscripten/1.37.9"
 
-export PATH="/usr/local/opt/bison/bin:$PATH"
+# Source custom paths.
+if [ -f ~/.bash_path ]; then
+  source ~/.bash_path
+fi
 
 # Shortcuts
 alias finder='open .'
