@@ -156,10 +156,21 @@ alias ls='ls -GFh'
 alias root='sudo su'
 alias serve='python -m SimpleHTTPServer 8888'
 
+# Open in projects folder
 function p { cd ~/Projects/$@; }
+
+# Create and open a directory
 function cf { mkdir $@; cd $@; }
+
+# youtube-mp3
 function youtube_mp3 { youtube-dl --extract-audio --audio-format mp3 -l $@; }
+
+# Hash functions
 function sha1 { openssl sha1 $@; }
+function sha256 { shasum -a 256 $@; }
+
+# Start and attach a docker instance.
+function dvm { docker start $@ 1>/dev/null; docker attach $@; }
 
 # Check for updates, don't actually do anything about it.
 function dotfiles_check_updates {
