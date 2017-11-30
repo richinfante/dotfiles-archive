@@ -3,7 +3,7 @@ export TERM=xterm-256color
 # Customizable Options
 GIT_BRANCH_CHAR="↳"
 DOTFILES_DIR="~/Projects/dotfiles"
-TMUX_AUTO_OPEN=true
+TMUX_AUTO_OPEN=false
 
 # Bash tab completion
 bind 'TAB:menu-complete'
