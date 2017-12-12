@@ -156,6 +156,13 @@ alias ls='ls -GFh'
 alias root='sudo su'
 alias serve='python -m SimpleHTTPServer 8888'
 
+# GPG Support
+GPG_TTY=$(tty)
+export GPG_TTY 
+
+# Shortcut to make GPG forget cached passwords.
+function gpg_forget { echo RELOADAGENT | gpg-connect-agent; }
+
 # Open in projects folder
 function p { cd ~/Projects/$@; }
 
