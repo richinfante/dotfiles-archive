@@ -156,6 +156,9 @@ alias ls='ls -GFh'
 alias root='sudo su'
 alias serve='python -m SimpleHTTPServer 8888'
 
+# Bash History
+HISTCONTROL=ignoreboth
+
 # GPG Support
 GPG_TTY=$(tty)
 export GPG_TTY 
