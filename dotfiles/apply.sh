@@ -11,3 +11,5 @@ cp ./.tmux.conf ~/.tmux.conf
 cp ./.hyper.js ~/.hyper.js
 cp ./.vimrc ~/.vimrc
 cp ./.bash_profile ~/.bash_profile
+
+cp -r ./.config ~/.config

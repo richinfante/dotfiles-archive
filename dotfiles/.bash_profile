@@ -203,9 +203,15 @@ if [ "$DOTFILES_CHECK_UPDATES" == "true" ]; then
 fi
 
 # Auto open tmux if enabled and not running.
-if [ "$TMUX_AUTO_OPEN" == "true" ]; then
-  if [ -z "$TMUX" ]; then
-    # Open Tmux.
-    tmux new-session -A -s main
+# Check for tmux to be installed.
+if which tmux>/dev/null; then
+  # Check that there are no running instances.
+  if ! pidof tmux>/dev/null; then
+    # Check that we want to run tmux.
+    if [ "$TMUX_AUTO_OPEN" == "true" ]; then
+
+      # Start a new session.
+      tmux new-session -A -s main
+    fi
   fi
 fi
