@@ -101,13 +101,13 @@ export plugin_ssh_hostname
 export plugin_root
 
 # Bash Prompt
-export PS1="\[$RESET$BG_BLACK\]"
+export PS1="\[$RESET$BOLD\]"
 
 if [ "$PROMPT_DATE" == "true" ]; then 
     PS1="$PS1\[$DIM$GRAY\]\D{%Y-%m-%d %H:%M:%S} "
 fi
 
-PS1="$PS1\[$RESET$WHITE$BG_BLACK\]\u$(plugin_ssh_hostname): \
+PS1="$PS1\[$WHITE\]\u$(plugin_ssh_hostname): \
 \[$GRAY\]\w \
 \[$LIGHT_MAGENTA\]\$(plugin_git_branch 2> /dev/null)\
 \[$LIGHT_GREEN\]\$(plugin_root)\[$RESET\] "
@@ -141,6 +141,7 @@ export_path "$HOME/.local/bin"
 export_path "$HOME/.npm-global/bin"
 export_path "$HOME/.fastlane/bin"
 export_path "$HOME/bin"
+export_path "/Applications/Sublime Text.app/Contents/SharedSupport/bin/"
 
 # Source custom paths.
 if [ -f ~/.bash_path ]; then
@@ -155,6 +156,9 @@ alias la='ls -la'
 alias ls='ls -GFh'
 alias root='sudo su'
 alias serve='python -m SimpleHTTPServer 8888'
+alias prettyjson='python -m json.tool'
+alias s='subl'
+alias t='tmux new-session -A -s main'
 
 # Bash History
 HISTCONTROL=ignoreboth

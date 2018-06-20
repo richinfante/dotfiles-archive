@@ -1,3 +1,10 @@
+#
+# System Configuration for macOS
+#
+
+LOGIN_MESSAGE="Use of this system is for authorized users only."
+DNS_SERVERS="1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001 8.8.8.8"
+
 # Show all file extensions
 run_cmd "defaults write NSGlobalDomain AppleShowAllExtensions -bool true"
 
@@ -24,22 +31,26 @@ run_cmd "/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on"
 run_cmd "sudo nvram boot-args=-v"
 
 # Set DNS Servers
-run_cmd "networksetup -setdnsservers Wi-Fi 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001 8.8.8.8"
-run_cmd "networksetup -setdnsservers Ethernet 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001 8.8.8.8"
+run_cmd "networksetup -setdnsservers Wi-Fi $DNS_SERVERS"
+run_cmd "networksetup -setdnsservers Ethernet $DNS_SERVERS"
 
+# Set system run message
+run_cmd "sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText '$LOGIN_MESSAGE'"
 
 if ! which brew>/dev/null; then
   # Install Homebrew
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-printf "${LIGHT_GREEN}SET${RESET} hostname: "
+printf "${LIGHT_GREEN}SET${RESET} hostname($(hostname)): "
 read HOSTNAME;
 
-if [[ "$HOSTNAME" -ne "" ]]; then
-  sudo scutil --set HostName $HOSTNAME &&
-  sudo scutil --set LocalHostName $HOSTNAME &&
-  sudo scutil --set ComputerName $HOSTNAME &&
-  dscacheutil -flushcache && 
-  printf " ---> ${LIGHT_GREEN}OK${RESET}\n"
+if [[ "$HOSTNAME" == "" ]]; then
+  HOSTNAME="$(hostname)"
 fi
+
+sudo scutil --set HostName $HOSTNAME &&
+sudo scutil --set LocalHostName $HOSTNAME &&
+sudo scutil --set ComputerName $HOSTNAME &&
+dscacheutil -flushcache && 
+printf " ---> ${LIGHT_GREEN}OK${RESET}\n"
