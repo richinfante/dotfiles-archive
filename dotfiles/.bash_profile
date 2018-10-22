@@ -8,11 +8,6 @@ TMUX_AUTO_OPEN=false
 # Bash tab completion
 bind 'TAB:menu-complete'
 
-# Run bashrc
-if [ -f ~/.bashrc ]; then
-	. ~/.bashrc
-fi
-
 # Run Bash config
 if [ -f ~/.bash_config ]; then
   source ~/.bash_config
@@ -130,11 +125,12 @@ function export_path {
 }
 
 # Path variables
-export PATH="/bin"
+export PATH="./bin/"
+export_path "/usr/local/bin"
+export_path "/bin"
 export_path "/sbin"
 export_path "/usr/bin"
 export_path "/usr/sbin"
-export_path "/usr/local/bin"
 export_path "/Applications/Postgres.app/Contents/Versions/latest/bin"
 export_path "./node_modules/.bin"
 export_path "$HOME/.local/bin"
@@ -148,6 +144,11 @@ if [ -f ~/.bash_path ]; then
   source ~/.bash_path
 fi
 
+# # Add git completion
+# if [ -f ~/scripts/git-completion.bash ]; then
+#   source ~/scripts/git-completion.bash
+# fi
+
 # Shortcuts
 alias finder='open .'
 alias l='ls -a'
@@ -159,6 +160,7 @@ alias serve='python -m SimpleHTTPServer 8888'
 alias prettyjson='python -m json.tool'
 alias s='subl'
 alias t='tmux new-session -A -s main'
+alias pdb='python -m pdb'
 
 # Bash History
 HISTCONTROL=ignoreboth
@@ -222,3 +224,5 @@ if which tmux>/dev/null; then
     fi
   fi
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
