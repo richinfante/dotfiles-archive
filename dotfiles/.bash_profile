@@ -70,6 +70,10 @@ export PS1="\[$RESET\]\$(\
     echo \"\";
   fi\
 )\
+$(
+  # HOST SECTION
+  # (hidden if not using ssh or remote)
+)\
 \[$RESET\]\[$WHITE\]\[$BOLD\]\u$(\
  if [ -n "$SSH_CLIENT" ] || \
     [ -n "$SSH_TTY" ] || \
