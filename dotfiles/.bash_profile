@@ -2,8 +2,6 @@ export TERM=xterm-256color
 
 # Customizable Options
 GIT_BRANCH_CHAR="↳"
-DOTFILES_DIR="~/Projects/dotfiles"
-TMUX_AUTO_OPEN=false
 
 # Bash tab completion
 bind 'TAB:menu-complete'
@@ -60,52 +58,52 @@ if [ "$COLORS_ENABLED" != "false" ]; then
   export HIDDEN="\033[8m"
 fi 
 
-plugin_git_branch () {
-  if [ ! -d ".git" ]; then
-    # Control will enter here if $DIRECTORY doesn't exist.
-    echo ""
-  elif git diff-index --quiet HEAD -- 2> /dev/null; then
-    # no changes
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1) /'
-  else
-    # changes
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1 \*) /'
-  fi
-  
-}
+# Bash Prompt String
+export PS1="\[$RESET\]\$(\
+  $(
+    # DATE SECTION
+    # This is run on every newline
+  )\
+  if [[ \"\$PROMPT_DATE\" == \"true\" ]]; then\
+   echo \"\[$DIM$GRAY\]\D{%Y-%m-%d %H:%M:%S} \";\
+  else\
+    echo \"\";
+  fi\
+)\
+\[$RESET\]\[$WHITE\]\[$BOLD\]\u$(\
+ if [ -n "$SSH_CLIENT" ] || \
+    [ -n "$SSH_TTY" ] || \
+    [ -f /.dockerenv ]; then \
+  echo "@\h";\
+ fi
+): \
+$(
+  # USER NAME
+)\
+\[\]\w \
+$(
+  # GIT COMPONENT
+  # Attempt to get git branch
+  # Errors piped to stdout so if no branch, no display.
+)\
+\[$LIGHT_BLUE\]\$(\
+  if git diff-index --quiet HEAD -- 2> /dev/null; then\
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1) /';\
+  else \
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1 \*) /';\
+  fi\
+)\
+$(
+  # SHELL TYPE INDICATOR
+  # "$" or "#" depending on user/superuser
+)\
+\[$GREEN\]\$(\
+  if [[ `whoami` == "root" ]]; then \
+    echo '#'; \
+    else echo '$';\
+  fi\
+)\[$RESET\] "
 
-# Return the hostname for display if on ssh
-plugin_ssh_hostname () {
-  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    echo "@\h"
-  fi
-  echo ""
-}
-
-# Display a "#" for root or a "$" for users.
-plugin_root () {
-  if [ "`id -u`" -eq 0 ]; then
-    echo '#'
-  else
-    echo '$'
-  fi
-}
-
-export plugin_git_branch
-export plugin_ssh_hostname
-export plugin_root
-
-# Bash Prompt
-export PS1="\[$RESET$BOLD\]"
-
-if [ "$PROMPT_DATE" == "true" ]; then 
-    PS1="$PS1\[$DIM$GRAY\]\D{%Y-%m-%d %H:%M:%S} "
-fi
-
-PS1="$PS1\[$WHITE\]\u$(plugin_ssh_hostname): \
-\[$GRAY\]\w \
-\[$LIGHT_MAGENTA\]\$(plugin_git_branch 2> /dev/null)\
-\[$LIGHT_GREEN\]\$(plugin_root)\[$RESET\] "
 export PS2="\[$DIM$GRAY\]> \[$RESET\]"
 export PS4="\[$DIM$GRAY\]+ \[$RESET\]"
 
@@ -125,29 +123,30 @@ function export_path {
 }
 
 # Path variables
-export PATH="./bin/"
-export_path "/usr/local/bin"
+export PATH="/usr/local/bin"
 export_path "/bin"
 export_path "/sbin"
 export_path "/usr/bin"
 export_path "/usr/sbin"
 export_path "/Applications/Postgres.app/Contents/Versions/latest/bin"
-export_path "./node_modules/.bin"
 export_path "$HOME/.local/bin"
 export_path "$HOME/.npm-global/bin"
 export_path "$HOME/.fastlane/bin"
 export_path "$HOME/bin"
 export_path "/Applications/Sublime Text.app/Contents/SharedSupport/bin/"
 
+# Since export_path is conditional, we must add directory-dependent paths here:
+export PATH="$PATH:./node_modules/.bin"
+
 # Source custom paths.
 if [ -f ~/.bash_path ]; then
   source ~/.bash_path
 fi
 
-# # Add git completion
-# if [ -f ~/scripts/git-completion.bash ]; then
-#   source ~/scripts/git-completion.bash
-# fi
+# Add git completion
+if [ -f ~/scripts/git-completion.bash ]; then
+  source ~/scripts/git-completion.bash
+fi
 
 # Shortcuts
 alias finder='open .'
@@ -161,6 +160,8 @@ alias prettyjson='python -m json.tool'
 alias s='subl'
 alias t='tmux new-session -A -s main'
 alias pdb='python -m pdb'
+alias lowercase='tr "[:upper:]" "[:lower:]"'
+alias uppercase='tr "[:lower:]" "[:upper:]"'
 
 # Bash History
 HISTCONTROL=ignoreboth
@@ -170,7 +171,7 @@ GPG_TTY=$(tty)
 export GPG_TTY 
 
 # Shortcut to make GPG forget cached passwords.
-function gpg_forget { echo RELOADAGENT | gpg-connect-agent; }
+function gpg-forget { echo RELOADAGENT | gpg-connect-agent; }
 
 # Open in projects folder
 function p { cd ~/Projects/$@; }
@@ -179,7 +180,7 @@ function p { cd ~/Projects/$@; }
 function cf { mkdir $@; cd $@; }
 
 # youtube-mp3
-function youtube_mp3 { youtube-dl --extract-audio --audio-format mp3 -l $@; }
+function youtube-mp3 { youtube-dl --extract-audio --audio-format mp3 -l $@; }
 
 # Hash functions
 function sha1 { openssl sha1 $@; }
@@ -187,42 +188,5 @@ function sha256 { shasum -a 256 $@; }
 
 # Start and attach a docker instance.
 function dvm { docker start $@ 1>/dev/null; docker attach $@; }
-
-# Check for updates, don't actually do anything about it.
-function dotfiles_check_updates {
-  if [ -d $DOTFILES_DIR ]; then
-    # Pull Remote refs
-    ( cd $DOTFILES_DIR && git remote update > /dev/null 2> /dev/null ) 
-    
-    # Check for changes
-    UPSTREAM=${1:-'@{u}'}
-    LOCAL=$(cd $DOTFILES_DIR && git rev-parse @)
-    REMOTE=$(cd $DOTFILES_DIR && git rev-parse "$UPSTREAM")
-    BASE=$(cd $DOTFILES_DIR && git merge-base @ "$UPSTREAM")
-  
-    if [[ "$LOCAL" == "$BASE" && "$LOCAL" != "$REMOTE" ]]; then
-        echo "[!] There are updates available your dotfiles."
-        echo "[!] Run \"cd $DOTFILES_DIR\", \"git pull\", and \"./apply.sh\""
-    fi
-  fi
-}
-
-if [ "$DOTFILES_CHECK_UPDATES" == "true" ]; then
-  dotfiles_check_updates &
-fi
-
-# Auto open tmux if enabled and not running.
-# Check for tmux to be installed.
-if which tmux>/dev/null; then
-  # Check that there are no running instances.
-  if ! pidof tmux>/dev/null; then
-    # Check that we want to run tmux.
-    if [ "$TMUX_AUTO_OPEN" == "true" ]; then
-
-      # Start a new session.
-      tmux new-session -A -s main
-    fi
-  fi
-fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
