@@ -184,7 +184,7 @@ function p { cd ~/Projects/$@; }
 function cf { mkdir $@; cd $@; }
 
 # youtube-mp3
-function youtube-mp3 { youtube-dl --extract-audio --audio-format mp3 -l $@; }
+function youtube-mp3 { youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" $@; }
 
 # Hash functions
 function sha1 { openssl sha1 $@; }
