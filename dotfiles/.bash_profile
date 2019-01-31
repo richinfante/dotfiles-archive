@@ -2,6 +2,8 @@ export TERM=xterm-256color
 
 # Customizable Options
 GIT_BRANCH_CHAR="↳"
+PROMPT_GIT="true"
+PROMPT_DATE="false"
 
 # Bash tab completion
 bind 'TAB:menu-complete'
@@ -91,10 +93,12 @@ $(
   # Errors piped to stdout so if no branch, no display.
 )\
 \[$LIGHT_BLUE\]\$(\
-  if git diff-index --quiet HEAD -- 2> /dev/null; then\
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1) /';\
-  else \
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1 \*) /';\
+  if [[ \"\$PROMPT_GIT\" == "true" ]]; then\
+    if git diff-index --quiet HEAD -- 2> /dev/null; then\
+      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1) /';\
+    else \
+      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1 \*) /';\
+    fi\
   fi\
 )\
 $(
