@@ -60,6 +60,11 @@ if [ "$COLORS_ENABLED" != "false" ]; then
   export HIDDEN="\033[8m"
 fi 
 
+# Debian CHROOT Support
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+  debian_chroot=$(cat /etc/debian_chroot)
+fi
+
 # Bash Prompt String
 export PS1="\[$RESET\]\$(\
   $(
@@ -76,7 +81,8 @@ $(
   # HOST SECTION
   # (hidden if not using ssh or remote)
 )\
-\[$RESET\]\[$WHITE\]\[$BOLD\]\u$(\
+\[$RESET\]\[$WHITE\]\[$BOLD\]\
+${debian_chroot:+($debian_chroot) }\u$(\
  if [ -n "$SSH_CLIENT" ] || \
     [ -n "$SSH_TTY" ] || \
     [ -f /.dockerenv ]; then \
