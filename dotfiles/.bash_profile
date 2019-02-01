@@ -1,12 +1,15 @@
-export TERM=xterm-256color
-
 # Customizable Options
 GIT_BRANCH_CHAR="↳"
 PROMPT_GIT="true"
 PROMPT_DATE="false"
 
-# Bash tab completion
-bind 'TAB:menu-complete'
+# If we're in a tty,
+if [ -t 1 ] ; then
+  export TERM=xterm-256color
+  COLORS_ENABLED=false
+  # Bash tab completion
+  bind 'TAB:menu-complete'
+fi
 
 # Run Bash config
 if [ -f ~/.bash_config ]; then
