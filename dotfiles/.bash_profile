@@ -6,7 +6,7 @@ PROMPT_DATE="false"
 # If we're in a tty,
 if [ -t 1 ] ; then
   export TERM=xterm-256color
-  COLORS_ENABLED=false
+  COLORS_ENABLED=true
   # Bash tab completion
   bind 'TAB:menu-complete'
 fi
