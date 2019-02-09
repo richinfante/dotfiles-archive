@@ -15,7 +15,7 @@ in `~/.bash_config`
 - `COLORS_ENABLED` - enable/disable most colors.
 
 # Apply Dotfiles
-**This overwrites whatever's there.**
+**WARNING: This overwrites whatever's there.**
 - `./dotfiles/apply.sh` - save in $HOME.
 
 # Scripts 
