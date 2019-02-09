@@ -149,6 +149,7 @@ export_path "/Applications/Postgres.app/Contents/Versions/latest/bin"
 export_path "$HOME/.local/bin"
 export_path "$HOME/.npm-global/bin"
 export_path "$HOME/.fastlane/bin"
+export_path "$HOME/.cargo/bin"
 export_path "$HOME/bin"
 export_path "/Applications/Sublime Text.app/Contents/SharedSupport/bin/"
 
@@ -205,5 +206,3 @@ function sha256 { shasum -a 256 $@; }
 
 # Start and attach a docker instance.
 function dvm { docker start $@ 1>/dev/null; docker attach $@; }
-
-export PATH="$HOME/.cargo/bin:$PATH"
