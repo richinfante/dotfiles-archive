@@ -49,8 +49,9 @@ if [[ "$HOSTNAME" == "" ]]; then
   HOSTNAME="$(hostname)"
 fi
 
-sudo scutil --set HostName $HOSTNAME &&
-sudo scutil --set LocalHostName $HOSTNAME &&
-sudo scutil --set ComputerName $HOSTNAME &&
-dscacheutil -flushcache && 
-printf " ---> ${LIGHT_GREEN}OK${RESET}\n"
+run_cmd "sudo scutil --set HostName $HOSTNAME"
+run_cmd "sudo scutil --set LocalHostName $HOSTNAME"
+run_cmd "sudo scutil --set ComputerName $HOSTNAME"
+run_cmd "dscacheutil -flushcache"
+
+printf " ---> ${LIGHT_GREEN}COMPLETE${RESET}\n"

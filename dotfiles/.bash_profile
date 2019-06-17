@@ -2,6 +2,7 @@
 GIT_BRANCH_CHAR="↳"
 PROMPT_GIT="true"
 PROMPT_DATE="false"
+ENABLE_HOST_ALWAYS="true"
 
 # If we're in a tty,
 if [ -t 1 ] ; then
@@ -61,6 +62,12 @@ if [ "$COLORS_ENABLED" != "false" ]; then
   export BLINK="\033[5m"
   export INVERTED="\033[7m"
   export HIDDEN="\033[8m"
+
+  # Settings for $PS1 string
+  GIT_COLOR="$LIGHT_BLUE"
+  DATE_COLOR="$DIM$GRAY"
+  HOST_COLOR="$BOLD$WHITE"
+  SHELL_TYPE_COLOR="$GREEN"
 fi 
 
 # Debian CHROOT Support
@@ -75,7 +82,7 @@ export PS1="\[$RESET\]\$(\
     # This is run on every newline
   )\
   if [[ \"\$PROMPT_DATE\" == \"true\" ]]; then\
-   echo \"\[$DIM$GRAY\]\D{%Y-%m-%d %H:%M:%S} \";\
+   echo \"\[$DATE_COLOR\]\D{%Y-%m-%d %H:%M:%S} \";\
   else\
     echo \"\";
   fi\
@@ -84,12 +91,12 @@ $(
   # HOST SECTION
   # (hidden if not using ssh or remote)
 )\
-\[$RESET\]\[$WHITE\]\[$BOLD\]\
-${debian_chroot:+($debian_chroot) }\u$(\
- if [ -n "$SSH_CLIENT" ] || \
-    [ -n "$SSH_TTY" ] || \
+\[$RESET\]\[$HOST_COLOR\]\
+${debian_chroot:+($debian_chroot) }\u\$(\
+ if [ ! -z \"$SSH_CLIENT\" ] || \
+    [ ! -z \"$SSH_TTY\" ] || \
     [ -f /.dockerenv ]; then \
-  echo "@\h";\
+  echo "@\\h";\
  fi
 ): \
 $(
@@ -101,7 +108,7 @@ $(
   # Attempt to get git branch
   # Errors piped to stdout so if no branch, no display.
 )\
-\[$LIGHT_BLUE\]\$(\
+\[$GIT_COLOR\]\$(\
   if [[ \"\$PROMPT_GIT\" == "true" ]]; then\
     if git diff-index --quiet HEAD -- 2> /dev/null; then\
       git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/('"$GIT_BRANCH_CHAR"' \1) /';\
@@ -114,7 +121,7 @@ $(
   # SHELL TYPE INDICATOR
   # "$" or "#" depending on user/superuser
 )\
-\[$GREEN\]\$(\
+\[$SHELL_TYPE_COLOR\]\$(\
   if [[ `whoami` == "root" ]]; then \
     echo '#'; \
     else echo '$';\
@@ -182,9 +189,6 @@ alias lowercase='tr "[:upper:]" "[:lower:]"'
 alias uppercase='tr "[:lower:]" "[:upper:]"'
 alias trim="awk '{\$1=\$1};1'"
 
-# Bash History
-HISTCONTROL=ignoreboth
-
 # GPG Support
 GPG_TTY=$(tty)
 export GPG_TTY 
@@ -200,10 +204,23 @@ function cf { mkdir $@; cd $@; }
 
 # youtube-mp3
 function youtube-mp3 { youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" $@; }
+function youtube-wav { youtube-dl --extract-audio --audio-format wav -o "%(title)s.%(ext)s" $@; }
 
-# Hash functions
+# Hash + Crypto functions
 function sha1 { openssl sha1 $@; }
 function sha256 { shasum -a 256 $@; }
+function random-bytes { openssl rand -hex $@; }
 
 # Start and attach a docker instance.
 function dvm { docker start $@ 1>/dev/null; docker attach $@; }
+
+# Set window title (iTerm)
+function title { echo -ne "\033]0;"$*"\007"; }
+
+# Bash History Setup
+# This must be the last thing or history is crowded with environment setup.
+set -o history
+shopt -s histappend
+export HISTCONTROL=ignoreboth
+export HISTFILE=~/.bash_history
+export HISTTIMEFORMAT="%F-%R "
