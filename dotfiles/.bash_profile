@@ -217,6 +217,9 @@ function dvm { docker start $@ 1>/dev/null; docker attach $@; }
 # Set window title (iTerm)
 function title { echo -ne "\033]0;"$*"\007"; }
 
+# Stop python from being annoying.
+export PYTHONDONTWRITEBYTECODE="true"
+
 # Bash History Setup
 # This must be the last thing or history is crowded with environment setup.
 set -o history
