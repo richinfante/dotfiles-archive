@@ -220,10 +220,48 @@ function title { echo -ne "\033]0;"$*"\007"; }
 # Stop python from being annoying.
 export PYTHONDONTWRITEBYTECODE="true"
 
+# adapted from: https://github.com/dylanaraps/pure-bash-bible
+urlencode() {
+  # check if arg 1 is present. if not, read from stdin.
+  if [ "$1" != "" ]; then
+    CONTENTS="$1"
+  else
+    CONTENTS=$(cat -)
+  fi
+
+  # Usage: urlencode "string"
+  local LC_ALL=C
+  for (( i = 0; i < ${#CONTENTS}; i++ )); do
+    : "${CONTENTS:i:1}"
+    case "$_" in
+      [a-zA-Z0-9.~_-])
+        printf '%s' "$_"
+      ;;
+
+      *)
+        printf '%%%02X' "'$_"
+      ;;
+    esac
+  done
+  printf '\n'
+}
+
+# adapted from: https://github.com/dylanaraps/pure-bash-bible
+urldecode() {
+  # check if arg 1 is present. if not, read from stdin.
+  if [ "$1" != "" ]; then
+    CONTENTS="$1"
+  else
+    CONTENTS=$(cat -)
+  fi
+
+  # Usage: urldecode "string"
+  : "${CONTENTS//+/ }"
+  printf '%b\n' "${_//%/\\x}"
+}
+
 # Bash History Setup
 # This must be the last thing or history is crowded with environment setup.
-set -o history
-shopt -s histappend
 export HISTCONTROL=ignoreboth
 export HISTFILE=~/.bash_history
 export HISTTIMEFORMAT="%F-%R "
