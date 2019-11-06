@@ -8,11 +8,19 @@ mkdir -p ~/.vim
 mkdir -p ~/.vim/colors
 cp molokai-vim/colors/molokai.vim ~/.vim/colors
 
-cp ./.tmux.conf ~/.tmux.conf
-cp ./.hyper.js ~/.hyper.js
-cp ./.vimrc ~/.vimrc
-cp ./.bash_profile ~/.bash_profile
-cp ./.bashrc ~/.bashrc
+function link_path() {
+  if [ ! -f "~/$@" ]; then
+    ln -s "$(realpath "$@")" "~/$@"
+  else
+    echo "failed to link: ~/$@ - please remove or rename!"
+  fi
+}
+
+link_path .tmux.conf
+link_path .hyper.js
+link_path .vimrc
+link_path .bash_profile
+link_path .bashrc
 
 cp -r ./.config ~/.config
 cp -r ./scripts ~/scripts
