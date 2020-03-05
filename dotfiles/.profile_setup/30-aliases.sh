@@ -20,3 +20,4 @@ alias pdb='python -m pdb'
 alias lowercase='tr "[:upper:]" "[:lower:]"'
 alias uppercase='tr "[:lower:]" "[:upper:]"'
 alias trim="awk '{\$1=\$1};1'"
+alias cls="clear; printf '\e[3J'"

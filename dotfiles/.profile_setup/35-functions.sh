@@ -10,8 +10,14 @@ function p { cd ~/Projects/$@; }
 function cf { mkdir $@; cd $@; }
 
 # youtube-mp3
-function youtube-mp3 { youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" $@; }
-function youtube-wav { youtube-dl --extract-audio --audio-format wav -o "%(title)s.%(ext)s" $@; }
+function youtube-mp3 { youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" "$@"; }
+function youtube-wav { youtube-dl --extract-audio --audio-format wav -o "%(title)s.%(ext)s" "$@"; }
+
+# Download linked files of type.
+# Usage: dl-linked mp3,mp4 http://example.com
+function dl-linked {
+  wget --accept "$1" --mirror --page-requisites --adjust-extension --convert-links --backup-converted --no-parent "$2";
+}
 
 # Hash + Crypto functions
 function sha1 { openssl sha1 $@; }
@@ -25,12 +31,14 @@ function dvm { docker start $@ 1>/dev/null; docker attach $@; }
 function title { echo -ne "\033]0;"$*"\007"; }
 
 # DuckDuckGo
-function ddg { w3m https://duckduckgo.com/lite?q="$*&fd=-1" }
+function ddg () {
+  w3m "https://duckduckgo.com/lite?q=$*&fd=-1"
+}
 
 # Run a command, loading environment variables from and dotenv file
 # sets $PATH by default, can override in .env file
 function run-env () {
-  env -i  PATH="$PATH" $(egrep -v '^#' .env | xargs) $@
+  env -i PATH="$PATH" $(egrep -v '^#' .env | xargs) $@
 }
 
 #
