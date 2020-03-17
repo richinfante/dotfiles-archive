@@ -20,6 +20,9 @@ run_cmd "defaults write com.apple.screensaver askForPasswordDelay -int 0"
 # Don't save docs to iCloud by default
 run_cmd "defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false"
 
+# Disable writing DS_Store files to network shares
+run_cmd "defaults write com.apple.desktopservices DSDontWriteNetworkStores true"
+
 # Disable Multicast 
 # see: https://derflounder.wordpress.com/2016/08/22/disabling-bonjour-advertisement-on-os-x-el-capitan-and-later/
 run_cmd "sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES"
